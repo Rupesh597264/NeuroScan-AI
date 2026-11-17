@@ -1,0 +1,31 @@
+
+venv/
+__pycache__/
+*.pyc
+mlruns/
+.pytest_cache/
+.ipynb_checkpoints/
+.env
+# Dataset
+data/
+Alzheimer_s Dataset/
+
+# MLflow
+mlruns/
+mlflow.db
+
+# Local databases and logs
+*.db
+prediction_logs.csv
+
+# Python environment
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables
+.env
+
+# Jupyter
+.ipynb_checkpoints/

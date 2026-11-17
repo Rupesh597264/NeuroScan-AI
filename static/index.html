@@ -1,0 +1,1043 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroScan AI | MRI Intelligence</title>
+
+<style>
+:root {
+    --bg: #091321;
+    --sidebar: #0d1b2d;
+    --panel: #12243a;
+    --panel2: #172c45;
+    --border: #263c55;
+    --text: #edf5ff;
+    --muted: #91a7bf;
+    --blue: #55aaff;
+    --cyan: #49d5d0;
+    --green: #42cba0;
+    --red: #ff7979;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+button, input { font: inherit; }
+button { cursor: pointer; }
+
+.layout { display: flex; min-height: 100vh; }
+
+.sidebar {
+    width: 245px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 25px 16px;
+    position: fixed;
+    inset: 0 auto 0 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 5;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 9px 28px;
+}
+
+.brand-icon {
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    background: linear-gradient(135deg,#1d73bb,#35c5c1);
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+}
+
+.brand h2 { margin: 0; font-size: 19px; }
+.brand small { color: var(--muted); font-size: 11px; }
+
+.nav-label {
+    color: #718aa5;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.4px;
+    padding: 18px 12px 9px;
+}
+
+.nav-btn {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: #a9bdd2;
+    padding: 12px;
+    text-align: left;
+    border-radius: 9px;
+    margin: 3px 0;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-size: 13px;
+}
+
+.nav-btn:hover, .nav-btn.active {
+    background: #193957;
+    color: #72c7ff;
+}
+
+.sidebar-bottom {
+    margin-top: auto;
+    border-top: 1px solid var(--border);
+    padding: 17px 10px 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.main {
+    margin-left: 245px;
+    width: calc(100% - 245px);
+    padding: 28px 36px;
+    max-width: 1600px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.topbar h1 { margin: 0; font-size: 25px; }
+.topbar p { margin: 6px 0 0; color: var(--muted); font-size: 13px; }
+
+.status {
+    color: #65d7ad;
+    border: 1px solid #27644f;
+    background: #12382f;
+    border-radius: 30px;
+    padding: 8px 13px;
+    font-size: 11px;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+.welcome {
+    background: linear-gradient(115deg,#153b60,#12506a);
+    border: 1px solid #285d7d;
+    border-radius: 16px;
+    padding: 27px;
+    margin-bottom: 23px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.welcome h2 { margin: 0 0 9px; font-size: 22px; }
+.welcome p { margin: 0; color: #c2d9eb; font-size: 13px; line-height: 1.6; }
+
+.primary, .secondary {
+    border: 0;
+    border-radius: 9px;
+    padding: 12px 17px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.primary {
+    color: #061625;
+    background: linear-gradient(100deg,#63b9ff,#52d5cf);
+}
+
+.primary:hover { filter: brightness(1.08); }
+
+.secondary {
+    color: #c8e5ff;
+    background: #1c3c5a;
+    border: 1px solid #365a78;
+}
+
+button:disabled { opacity: .55; cursor: not-allowed; }
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 15px;
+    margin-bottom: 23px;
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    padding: 19px;
+}
+
+.stat-label { color: var(--muted); font-size: 12px; }
+.stat-number { font-size: 27px; font-weight: 700; margin-top: 12px; }
+.stat-icon { font-size: 20px; float: right; }
+
+.section-title {
+    font-size: 16px;
+    margin: 0 0 15px;
+}
+
+.grid-two {
+    display: grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap: 17px;
+}
+
+.activity-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+}
+
+.activity-row:last-child { border-bottom: 0; }
+.muted { color: var(--muted); }
+
+.upload {
+    border: 2px dashed #42678a;
+    background: #10253b;
+    padding: 35px 20px;
+    text-align: center;
+    border-radius: 13px;
+    margin: 17px 0;
+    transition: .2s;
+}
+
+.upload.dragover {
+    border-color: var(--cyan);
+    background: #15374b;
+}
+
+.upload-icon { font-size: 37px; margin-bottom: 12px; }
+.upload h3 { margin: 5px 0 9px; }
+.upload p { color: var(--muted); font-size: 12px; }
+
+.file-input { display: none; }
+
+.preview {
+    max-width: 100%;
+    max-height: 270px;
+    object-fit: contain;
+    border-radius: 10px;
+    display: none;
+    margin: 15px auto;
+}
+
+.result {
+    display: none;
+    margin-top: 20px;
+    border: 1px solid #286d69;
+    background: #12352f;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.result h3 { color: #70e2bd; margin-top: 0; }
+.result ul { color: #c4e9dc; line-height: 1.8; font-size: 13px; }
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="text"], .search {
+    background: #0c1c2e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 11px;
+    color: white;
+    min-width: 0;
+}
+
+.search { width: 100%; margin: 10px 0 17px; }
+
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th, td { padding: 14px 11px; border-bottom: 1px solid var(--border); text-align: left; }
+th { color: var(--muted); font-weight: 500; }
+td { color: #d8e7f5; }
+
+.pill {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #193c50;
+    color: #83d9ce;
+    font-size: 10px;
+}
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.compare-box {
+    background: #10243a;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 17px;
+}
+
+.compare-box img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    display: none;
+    margin: 12px 0;
+    background: #081321;
+    border-radius: 8px;
+}
+
+.compare-result {
+    margin-top: 12px;
+    color: #74d9c2;
+    font-size: 13px;
+}
+
+.bar-row { margin: 18px 0; font-size: 12px; }
+.bar-track { height: 9px; background: #263c55; border-radius: 10px; margin-top: 8px; overflow: hidden; }
+.bar-fill { height: 100%; background: linear-gradient(90deg,#4da9ed,#4bd4c3); border-radius: 10px; }
+
+.info-box {
+    padding: 16px;
+    background: #10243a;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    margin: 12px 0;
+    color: #b8cadc;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.empty { text-align: center; padding: 30px; color: var(--muted); font-size: 13px; }
+
+.disclaimer {
+    color: #8196ac;
+    font-size: 11px;
+    line-height: 1.6;
+    margin-top: 24px;
+}
+
+.toast {
+    display: none;
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    background: #183b50;
+    color: white;
+    padding: 13px 18px;
+    border: 1px solid #39718a;
+    border-radius: 9px;
+    z-index: 10;
+    font-size: 12px;
+}
+
+@media(max-width:1000px) {
+    .stats { grid-template-columns: repeat(2,1fr); }
+    .grid-two { grid-template-columns: 1fr; }
+}
+
+@media(max-width:700px) {
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        padding: 12px;
+    }
+    .layout { display: block; }
+    .brand { padding-bottom: 10px; }
+    .nav-label, .sidebar-bottom { display: none; }
+    .nav-btn { width: auto; display: inline-flex; padding: 9px; }
+    .main { margin: 0; width: 100%; padding: 19px; }
+    .topbar { align-items: flex-start; }
+    .welcome { flex-direction: column; align-items: flex-start; }
+    .stats { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .compare-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="brand">
+        <div class="brand-icon">🧠</div>
+        <div>
+            <h2>NeuroScan AI</h2>
+            <small>MRI Intelligence Platform</small>
+        </div>
+    </div>
+
+    <div class="nav-label">WORKSPACE</div>
+    <button class="nav-btn active" data-page="dashboard">▦ Dashboard</button>
+    <button class="nav-btn" data-page="analysis">＋ New Analysis</button>
+    <button class="nav-btn" data-page="history">◷ Scan History</button>
+    <button class="nav-btn" data-page="compare">▣ Compare MRI</button>
+
+    <div class="nav-label">TOOLS</div>
+    <button class="nav-btn" data-page="reports">⇩ Export Reports</button>
+    <button class="nav-btn" data-page="analytics">▥ Analytics</button>
+    <button class="nav-btn" data-page="model">✧ Model Information</button>
+
+    <div class="sidebar-bottom">
+        <strong>NeuroScan AI</strong><br>
+        Academic AI prototype<br>
+        Not for clinical diagnosis
+    </div>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <div>
+            <h1 id="pageTitle">Dashboard Overview</h1>
+            <p id="pageSubtitle">Welcome to your MRI intelligence workspace.</p>
+        </div>
+        <span class="status">● System interface ready</span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <section class="page active" id="dashboard">
+        <div class="welcome">
+            <div>
+                <h2>Welcome to NeuroScan AI</h2>
+                <p>AI-based Alzheimer's MRI classification workspace.<br>
+                Upload a scan and explore the experimental model prediction.</p>
+            </div>
+            <button class="primary" onclick="showPage('analysis')">＋ Start New Analysis</button>
+        </div>
+
+        <div class="stats">
+            <div class="card">
+                <span class="stat-icon">🧠</span>
+                <div class="stat-label">Total scans</div>
+                <div class="stat-number" id="totalScans">0</div>
+            </div>
+            <div class="card">
+                <span class="stat-icon">◉</span>
+                <div class="stat-label">Demented predictions</div>
+                <div class="stat-number" id="dementedScans">0</div>
+            </div>
+            <div class="card">
+                <span class="stat-icon">◎</span>
+                <div class="stat-label">Non-demented predictions</div>
+                <div class="stat-number" id="nonDementedScans">0</div>
+            </div>
+            <div class="card">
+                <span class="stat-icon">◷</span>
+                <div class="stat-label">Latest scan</div>
+                <div class="stat-number" style="font-size:17px" id="latestScan">None</div>
+            </div>
+        </div>
+
+        <div class="grid-two">
+            <div class="card">
+                <h3 class="section-title">Recent Activity</h3>
+                <div id="recentActivity" class="empty">No scans yet. Start a new analysis.</div>
+            </div>
+            <div class="card">
+                <h3 class="section-title">Quick Actions</h3>
+                <button class="primary" style="width:100%;margin:8px 0" onclick="showPage('analysis')">＋ New MRI Analysis</button>
+                <button class="secondary" style="width:100%;margin:8px 0" onclick="showPage('compare')">▣ Compare Two MRI Images</button>
+                <button class="secondary" style="width:100%;margin:8px 0" onclick="showPage('history')">◷ View Scan History</button>
+            </div>
+        </div>
+        <p class="disclaimer">Educational prototype only. Predictions are experimental and are not a diagnosis or a substitute for professional medical assessment.</p>
+    </section>
+
+    <!-- NEW ANALYSIS -->
+    <section class="page" id="analysis">
+        <div class="card">
+            <h3 class="section-title">New MRI Analysis</h3>
+            <p class="muted" style="font-size:13px">Choose a brain MRI image to run the trained classification model.</p>
+
+            <div class="upload" id="uploadArea">
+                <div class="upload-icon">☁</div>
+                <h3>Upload MRI Image</h3>
+                <p>Drag and drop an image here, or choose a file below.</p>
+                <button class="secondary" onclick="document.getElementById('mriFile').click()">Choose MRI Image</button>
+                <input class="file-input" type="file" id="mriFile" accept=".jpg,.jpeg,.png,.bmp">
+                <img id="preview" class="preview" alt="MRI preview">
+                <p id="fileName" class="muted"></p>
+            </div>
+
+            <div class="form-row">
+                <button class="primary" id="predictBtn" onclick="predictMRI()">Analyze MRI</button>
+                <button class="secondary" onclick="clearAnalysis()">Clear</button>
+            </div>
+
+            <div class="result" id="result">
+                <h3>✓ Classification Result</h3>
+                <h2 id="prediction"></h2>
+                <p id="message"></p>
+                <h4>Important Information</h4>
+                <ul id="tips"></ul>
+                <button class="secondary" onclick="downloadLatestReport()">Download Report</button>
+            </div>
+            <p class="disclaimer">Do not upload identifiable patient information. This prototype is not validated for clinical use.</p>
+        </div>
+    </section>
+
+    <!-- HISTORY -->
+    <section class="page" id="history">
+        <div class="card">
+            <h3 class="section-title">Scan History</h3>
+            <p class="muted" style="font-size:12px">Previous analyses saved in this browser.</p>
+            <input class="search" id="historySearch" type="text" placeholder="Search by filename or prediction..." oninput="renderHistory()">
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Image</th><th>Prediction</th><th>Date & Time</th><th>Action</th></tr></thead>
+                    <tbody id="historyBody"></tbody>
+                </table>
+            </div>
+            <div id="historyEmpty" class="empty">No scan history available.</div>
+            <button class="secondary" onclick="clearHistory()">Clear Browser History</button>
+        </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="page" id="compare">
+        <div class="card">
+            <h3 class="section-title">Compare MRI Images</h3>
+            <p class="muted" style="font-size:12px">Upload two images to run separate predictions and compare their outputs.</p>
+            <div class="compare-grid">
+                <div class="compare-box">
+                    <h3>Scan A</h3>
+                    <input type="file" id="compareA" accept=".jpg,.jpeg,.png,.bmp">
+                    <img id="comparePreviewA" alt="Scan A preview">
+                    <p id="compareNameA" class="muted"></p>
+                    <div id="compareResultA" class="compare-result"></div>
+                </div>
+                <div class="compare-box">
+                    <h3>Scan B</h3>
+                    <input type="file" id="compareB" accept=".jpg,.jpeg,.png,.bmp">
+                    <img id="comparePreviewB" alt="Scan B preview">
+                    <p id="compareNameB" class="muted"></p>
+                    <div id="compareResultB" class="compare-result"></div>
+                </div>
+            </div>
+            <button class="primary" style="margin-top:18px" id="compareBtn" onclick="compareScans()">Compare Predictions</button>
+            <div id="compareSummary" class="info-box" style="display:none"></div>
+            <p class="disclaimer">Comparison describes model outputs only. It does not establish disease progression or clinical change.</p>
+        </div>
+    </section>
+
+    <!-- REPORTS -->
+    <section class="page" id="reports">
+        <div class="card">
+            <h3 class="section-title">Export Analysis Reports</h3>
+            <p class="muted" style="font-size:13px">Download a text summary of a previously completed analysis.</p>
+            <div id="reportList" class="empty">No reports available yet.</div>
+        </div>
+    </section>
+
+    <!-- ANALYTICS -->
+    <section class="page" id="analytics">
+        <div class="card">
+            <h3 class="section-title">Scan Analytics</h3>
+            <p class="muted" style="font-size:12px">Summary of saved predictions in this browser.</p>
+            <div id="analyticsContent"></div>
+        </div>
+    </section>
+
+    <!-- MODEL INFO -->
+    <section class="page" id="model">
+        <div class="card">
+            <h3 class="section-title">About the AI Model</h3>
+            <div class="info-box">
+                <strong>Project</strong><br>
+                NeuroScan AI — AI-Based Alzheimer's MRI Classification System
+            </div>
+            <div class="info-box">
+                <strong>Input processing</strong><br>
+                MRI image validation, grayscale conversion, resizing to 64 × 64 pixels, normalization and flattening into 4096 numerical features.
+            </div>
+            <div class="info-box">
+                <strong>Classification</strong><br>
+                The model predicts one of two classes: Demented or Non-Demented, based on the project's binary label mapping.
+            </div>
+            <div class="info-box">
+                <strong>Reported test performance</strong><br>
+                Accuracy: 67.53%<br>
+                Precision: 63.43%<br>
+                Recall: 82.78%<br>
+                F1-score: 71.83%
+            </div>
+            <div class="info-box">
+                <strong>Important limitation</strong><br>
+                These are experimental dataset results. They do not establish clinical accuracy, and the model must not be used for diagnosis or treatment decisions.
+            </div>
+        </div>
+    </section>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORAGE_KEY = "neuroscan_history_v1";
+let latestRecord = null;
+let compareFiles = { A: null, B: null };
+
+function getHistory() {
+    try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    } catch {
+        return [];
+    }
+}
+
+function saveHistory(history) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(history));
+    refreshDashboard();
+}
+
+function notify(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+    setTimeout(() => toast.style.display = "none", 2800);
+}
+
+function showPage(page) {
+    document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
+    document.getElementById(page).classList.add("active");
+
+    document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.page === page);
+    });
+
+    const titles = {
+        dashboard: ["Dashboard Overview", "Welcome to your MRI intelligence workspace."],
+        analysis: ["New Analysis", "Upload an MRI image for experimental classification."],
+        history: ["Scan History", "Review your previously saved analyses."],
+        compare: ["Compare MRI", "Compare the classification outputs of two scans."],
+        reports: ["Export Reports", "Download your analysis summaries."],
+        analytics: ["Analytics", "Explore your saved scan statistics."],
+        model: ["Model Information", "Learn about the NeuroScan AI model."]
+    };
+
+    document.getElementById("pageTitle").textContent = titles[page][0];
+    document.getElementById("pageSubtitle").textContent = titles[page][1];
+
+    if (page === "history") renderHistory();
+    if (page === "reports") renderReports();
+    if (page === "analytics") renderAnalytics();
+    window.scrollTo(0, 0);
+}
+
+document.querySelectorAll(".nav-btn").forEach(btn => {
+    btn.addEventListener("click", () => showPage(btn.dataset.page));
+});
+
+const fileInput = document.getElementById("mriFile");
+const preview = document.getElementById("preview");
+const uploadArea = document.getElementById("uploadArea");
+
+function validImage(file) {
+    return file && ["image/jpeg", "image/png", "image/bmp"].includes(file.type);
+}
+
+fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+    document.getElementById("result").style.display = "none";
+
+    if (!file) return;
+
+    if (!validImage(file)) {
+        notify("Please select a JPG, PNG or BMP image.");
+        fileInput.value = "";
+        preview.style.display = "none";
+        return;
+    }
+
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = "block";
+    document.getElementById("fileName").textContent = file.name;
+});
+
+uploadArea.addEventListener("dragover", event => {
+    event.preventDefault();
+    uploadArea.classList.add("dragover");
+});
+
+uploadArea.addEventListener("dragleave", () => uploadArea.classList.remove("dragover"));
+
+uploadArea.addEventListener("drop", event => {
+    event.preventDefault();
+    uploadArea.classList.remove("dragover");
+    const file = event.dataTransfer.files[0];
+
+    if (!validImage(file)) {
+        notify("Please drop a valid JPG, PNG or BMP image.");
+        return;
+    }
+
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    fileInput.files = transfer.files;
+    fileInput.dispatchEvent(new Event("change"));
+});
+
+function clearAnalysis() {
+    fileInput.value = "";
+    preview.style.display = "none";
+    document.getElementById("fileName").textContent = "";
+    document.getElementById("result").style.display = "none";
+}
+
+async function callPrediction(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("/predict", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.detail || "Prediction failed.");
+    }
+
+    return data;
+}
+
+function addRecord(file, data) {
+    const record = {
+        id: Date.now() + "_" + Math.random().toString(16).slice(2),
+        filename: file.name,
+        prediction: data.prediction,
+        message: data.message || "",
+        tips: Array.isArray(data.tips) ? data.tips : [],
+        date: new Date().toISOString()
+    };
+
+    const history = getHistory();
+    history.unshift(record);
+    saveHistory(history.slice(0, 100));
+    latestRecord = record;
+    return record;
+}
+
+async function predictMRI() {
+    const file = fileInput.files[0];
+
+    if (!file) {
+        notify("Please select an MRI image first.");
+        return;
+    }
+
+    const button = document.getElementById("predictBtn");
+    button.disabled = true;
+    button.textContent = "Analyzing MRI...";
+
+    try {
+        const data = await callPrediction(file);
+        const record = addRecord(file, data);
+
+        document.getElementById("result").style.display = "block";
+        document.getElementById("prediction").textContent = data.prediction;
+        document.getElementById("message").textContent = data.message || "";
+
+        const tipsList = document.getElementById("tips");
+        tipsList.innerHTML = "";
+
+        record.tips.forEach(tip => {
+            const li = document.createElement("li");
+            li.textContent = tip;
+            tipsList.appendChild(li);
+        });
+
+        notify("Analysis completed.");
+    } catch (error) {
+        notify(error.message);
+    } finally {
+        button.disabled = false;
+        button.textContent = "Analyze MRI";
+    }
+}
+
+function refreshDashboard() {
+    const history = getHistory();
+    const demented = history.filter(r => /demented/i.test(r.prediction) && !/non[- ]?demented/i.test(r.prediction)).length;
+    const nonDemented = history.filter(r => /non[- ]?demented/i.test(r.prediction)).length;
+
+    document.getElementById("totalScans").textContent = history.length;
+    document.getElementById("dementedScans").textContent = demented;
+    document.getElementById("nonDementedScans").textContent = nonDemented;
+    document.getElementById("latestScan").textContent = history.length
+        ? new Date(history[0].date).toLocaleDateString()
+        : "None";
+
+    const recent = document.getElementById("recentActivity");
+
+    if (!history.length) {
+        recent.className = "empty";
+        recent.textContent = "No scans yet. Start a new analysis.";
+        return;
+    }
+
+    recent.className = "";
+    recent.innerHTML = "";
+
+    history.slice(0, 5).forEach(record => {
+        const row = document.createElement("div");
+        row.className = "activity-row";
+
+        const left = document.createElement("span");
+        left.textContent = record.filename;
+
+        const right = document.createElement("span");
+        right.className = "muted";
+        right.textContent = record.prediction;
+
+        row.append(left, right);
+        recent.appendChild(row);
+    });
+}
+
+function renderHistory() {
+    const body = document.getElementById("historyBody");
+    const empty = document.getElementById("historyEmpty");
+    const query = document.getElementById("historySearch").value.toLowerCase();
+
+    body.innerHTML = "";
+
+    const filtered = getHistory().filter(r =>
+        r.filename.toLowerCase().includes(query) ||
+        r.prediction.toLowerCase().includes(query)
+    );
+
+    empty.style.display = filtered.length ? "none" : "block";
+
+    filtered.forEach(record => {
+        const tr = document.createElement("tr");
+
+        const values = [
+            record.filename,
+            record.prediction,
+            new Date(record.date).toLocaleString()
+        ];
+
+        values.forEach(value => {
+            const td = document.createElement("td");
+            td.textContent = value;
+            tr.appendChild(td);
+        });
+
+        const action = document.createElement("td");
+        const button = document.createElement("button");
+        button.className = "secondary";
+        button.textContent = "Download";
+        button.onclick = () => downloadRecord(record);
+        action.appendChild(button);
+        tr.appendChild(action);
+        body.appendChild(tr);
+    });
+}
+
+function clearHistory() {
+    if (!confirm("Delete all scan history stored in this browser?")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    latestRecord = null;
+    refreshDashboard();
+    renderHistory();
+    notify("Browser history cleared.");
+}
+
+function reportText(record) {
+    return [
+        "NEUROSCAN AI - EXPERIMENTAL ANALYSIS REPORT",
+        "===========================================",
+        "Image: " + record.filename,
+        "Date: " + new Date(record.date).toLocaleString(),
+        "Model prediction: " + record.prediction,
+        "Message: " + record.message,
+        "",
+        "Important information:",
+        ...record.tips.map((tip, i) => (i + 1) + ". " + tip),
+        "",
+        "DISCLAIMER: This is an educational AI prototype.",
+        "It is not a medical diagnosis and must not guide healthcare decisions."
+    ].join("\n");
+}
+
+function downloadRecord(record) {
+    const blob = new Blob([reportText(record)], {type: "text/plain"});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "NeuroScan_Report.txt";
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+function downloadLatestReport() {
+    if (!latestRecord) return notify("No analysis report available.");
+    downloadRecord(latestRecord);
+}
+
+function renderReports() {
+    const container = document.getElementById("reportList");
+    const history = getHistory();
+    container.innerHTML = "";
+
+    if (!history.length) {
+        container.className = "empty";
+        container.textContent = "No reports available yet.";
+        return;
+    }
+
+    container.className = "";
+
+    history.forEach(record => {
+        const row = document.createElement("div");
+        row.className = "activity-row";
+
+        const name = document.createElement("span");
+        name.textContent = record.filename + " — " + record.prediction;
+
+        const button = document.createElement("button");
+        button.className = "secondary";
+        button.textContent = "Download";
+        button.onclick = () => downloadRecord(record);
+
+        row.append(name, button);
+        container.appendChild(row);
+    });
+}
+
+function renderAnalytics() {
+    const history = getHistory();
+    const total = history.length;
+    const demented = history.filter(r => /demented/i.test(r.prediction) && !/non[- ]?demented/i.test(r.prediction)).length;
+    const nonDemented = history.filter(r => /non[- ]?demented/i.test(r.prediction)).length;
+
+    const percentage = count => total ? Math.round(count / total * 100) : 0;
+
+    document.getElementById("analyticsContent").innerHTML = `
+        <div class="stats">
+            <div class="card"><div class="stat-label">Total scans</div><div class="stat-number">${total}</div></div>
+            <div class="card"><div class="stat-label">Demented predictions</div><div class="stat-number">${demented}</div></div>
+            <div class="card"><div class="stat-label">Non-demented predictions</div><div class="stat-number">${nonDemented}</div></div>
+            <div class="card"><div class="stat-label">Browser records</div><div class="stat-number">${total}</div></div>
+        </div>
+        <div class="bar-row">Demented predictions — ${percentage(demented)}%
+            <div class="bar-track"><div class="bar-fill" style="width:${percentage(demented)}%"></div></div>
+        </div>
+        <div class="bar-row">Non-demented predictions — ${percentage(nonDemented)}%
+            <div class="bar-track"><div class="bar-fill" style="width:${percentage(nonDemented)}%"></div></div>
+        </div>
+        <p class="disclaimer">These charts summarize this browser's saved model outputs. They are not disease prevalence estimates or clinical statistics.</p>
+    `;
+}
+
+function setupCompareInput(id, key) {
+    document.getElementById(id).addEventListener("change", event => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (!validImage(file)) {
+            notify("Please select a valid JPG, PNG or BMP image.");
+            event.target.value = "";
+            return;
+        }
+
+        compareFiles[key] = file;
+        const image = document.getElementById("comparePreview" + key);
+        image.src = URL.createObjectURL(file);
+        image.style.display = "block";
+        document.getElementById("compareName" + key).textContent = file.name;
+        document.getElementById("compareResult" + key).textContent = "";
+        document.getElementById("compareSummary").style.display = "none";
+    });
+}
+
+setupCompareInput("compareA", "A");
+setupCompareInput("compareB", "B");
+
+
+async function compareScans() {
+    const a = compareFiles.A;
+    const b = compareFiles.B;
+
+    if (!a || !b) {
+        return notify("Please select both MRI images.");
+    }
+
+    const button = document.getElementById("compareBtn");
+    button.disabled = true;
+    button.textContent = "Comparing...";
+
+    try {
+        // Get predictions for both MRI images
+        const [resultA, resultB] = await Promise.all([
+            callPrediction(a),
+            callPrediction(b)
+        ]);
+
+        // Display predictions
+        document.getElementById("compareResultA").textContent =
+            "Prediction: " + resultA.prediction;
+
+        document.getElementById("compareResultB").textContent =
+            "Prediction: " + resultB.prediction;
+
+        // Save BOTH predictions in scan history
+        addRecord(a, resultA);
+        addRecord(b, resultB);
+
+        // Show comparison summary
+        const summary = document.getElementById("compareSummary");
+        summary.style.display = "block";
+
+        summary.textContent =
+            "Scan A: " + resultA.prediction +
+            " | Scan B: " + resultB.prediction +
+            ". These are independent experimental model predictions, not evidence of progression or clinical change.";
+
+        // Update dashboard and history
+        refreshDashboard();
+        renderHistory();
+
+        notify("Both MRI predictions saved to scan history.");
+
+    } catch (error) {
+        notify(error.message);
+
+    } finally {
+        button.disabled = false;
+        button.textContent = "Compare Predictions";
+    }
+}
+
+
+refreshDashboard();
+</script>
+</body>
+</html>

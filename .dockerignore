@@ -1,0 +1,13 @@
+
+venv/
+__pycache__/
+.pytest_cache/
+.git/
+.github/
+notebooks/
+data/
+mlruns/
+*.db
+*.ipynb
+tests/
+.env
