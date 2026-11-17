@@ -17,7 +17,9 @@ from sklearn.metrics import (
     accuracy_score,
     precision_score,
     recall_score,
-    f1_score
+    f1_score,
+    confusion_matrix,
+    classification_report
 )
 
 # ---------------------------------
@@ -411,7 +413,29 @@ def main():
     test_metrics = calculate_metrics(
         y_test, test_predictions
     )
+    # Confusion Matrix
+    cm = confusion_matrix(
+        y_test,
+        test_predictions,
+        labels=[0, 1]
+    )
 
+    print("\nCONFUSION MATRIX")
+    print("Rows = Actual, Columns = Predicted")
+    print("Class 0 = NonDemented")
+    print("Class 1 = Demented")
+    print(cm)
+
+    # Classification Report
+    print("\nCLASSIFICATION REPORT")
+
+    print(classification_report(
+        y_test,
+        test_predictions,
+        labels=[0, 1],
+        target_names=["NonDemented", "Demented"],
+        zero_division=0
+    ))
     print("\nFINAL TEST RESULTS")
     for metric, value in test_metrics.items():
         print(f"{metric}: {value:.4f}")
